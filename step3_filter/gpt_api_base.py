@@ -1,15 +1,22 @@
 import json
 
-import openai
+# import openai
 import requests
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 
+from openai import AzureOpenAI
 
-openai.api_base = "https://api.chatanywhere.com.cn/v1"
-openai.api_key = "sk-0X2V2CtOyKgRP0l8VK6howF8X4Rhd2RvCg0i8NBxac6A8Oj6"
+# openai.api_base = "https://api.chatanywhere.com.cn/v1"
+# openai.api_key = "sk-0X2V2CtOyKgRP0l8VK6howF8X4Rhd2RvCg0i8NBxac6A8Oj6"
 
 api_base = "https://www.jiujiuai.life/v1/chat/completions"
 api_key = "sk-31UVgsnLItXrBKQDCa0140EeE73e43B89811028090613197"
+
+client = AzureOpenAI(
+  azure_endpoint = "https://shhnlc2.openai.azure.com/", 
+  api_key="7309db19f76d4f0a8d93ac64c1f3aae0",  
+  api_version="2024-02-15-preview"
+)
 
 @retry(wait=wait_random_exponential(min=1, max=60), stop=stop_after_attempt(6))
 def call_openai(message,n=1,temperature=0.8,max_tokens=4096):
@@ -26,14 +33,35 @@ def call_openai(message,n=1,temperature=0.8,max_tokens=4096):
     return [result["message"]["content"] for result in  response["choices"]]
 @retry(wait=wait_random_exponential(min=1, max=60), stop=stop_after_attempt(6))
 def call_openai_gpt4(message,n=1,temperature=0.8,max_tokens=4096):
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
-            messages=message,
+    response = client.chat.completions.create(
+            model="gpt-4", # model = "deployment_name"
+            messages = message,
             temperature=temperature,
             max_tokens=max_tokens,
-            n=n
-        )
+            top_p=0.95,
+            frequency_penalty=0,
+            presence_penalty=0,
+            stop=None
+            )
+    return response
+    try:
+        # response = openai.ChatCompletion.create(
+        #     model="gpt-4",
+        #     messages=message,
+        #     temperature=temperature,
+        #     max_tokens=max_tokens,
+        #     n=n
+        # )
+        response = client.chat.completions.create(
+            model="gpt-4", # model = "deployment_name"
+            messages = message,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            top_p=0.95,
+            frequency_penalty=0,
+            presence_penalty=0,
+            stop=None
+            )
         return [result["message"]["content"] for result in response["choices"]]
     except Exception as e:
             print(e)
