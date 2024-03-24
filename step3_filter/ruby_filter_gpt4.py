@@ -43,16 +43,20 @@ def gen_message(fortran_code,instruction):
 def main():
     data_list = utils.read_json(read_path)
     save_list = []
+    writer = open(save_path, 'w', encoding='utf-8')
     for data in tqdm(data_list):
         instruction = data['instruction']
         function_code = data['code']
         messsage = gen_message(function_code,instruction)
-        gpt4_result = call_openai_gpt4(message=messsage,temperature=0)[0]
-        try:
-            gpt4_result = json.loads(gpt4_result)
-            save_list.append({'data':data,'gpt4_result':gpt4_result})
-        except:
-            continue
+        gpt4_result = call_openai_gpt4(message=messsage,temperature=0)
+        writer.write(json.dumps({'data':data,'gpt4_result':gpt4_result.choices[0].message.content})+'\n')
+        writer.flush()
+        # gpt4_result = call_openai_gpt4(message=messsage,temperature=0)[0]
+        # try:
+        #     gpt4_result = json.loads(gpt4_result)
+        #     save_list.append({'data':data,'gpt4_result':gpt4_result})
+        # except:
+        #     continue
     utils.save_json(save_path=save_path,save_list=save_list)
 
     # print(similarity_score)
