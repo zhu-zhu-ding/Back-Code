@@ -18,7 +18,7 @@ def save_json(save_path,save_list):
     try:
         with open(save_path, 'w', encoding="utf-8") as jsonl_file:
             for save_item in save_list:
-                json_string = json.dumps(save_item) + '\n'
+                json_string = json.dumps(save_item,indent=4) + '\n'
                 jsonl_file.write(json_string)
             print(f"save data to {save_path}")
     except Exception as e:
