@@ -8,8 +8,8 @@ from utils import read_json_list,save_json_list
 function_list = read_json_list('./test/test_function.json')
 subroutine_list = read_json_list('./test/test_subroutine.json')
 
-function_list = function_list[:3]
-subroutine_list = subroutine_list[:3]
+#function_list = function_list[:3]
+#subroutine_list = subroutine_list[:3]
 function_result_list = []
 for data in tqdm(function_list):
     message = [

@@ -5,8 +5,8 @@ import requests
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 
 
-openai.api_base = "https://api.chatanywhere.com.cn/v1"
-openai.api_key = "sk-0X2V2CtOyKgRP0l8VK6howF8X4Rhd2RvCg0i8NBxac6A8Oj6"
+openai.api_base = "https://gcraoai5sw2.openai.azure.com/"
+openai.api_key = "06e3e62fff2245c0b2e982f33a65cb11"
 
 api_base = "https://www.jiujiuai.life/v1/chat/completions"
 api_key = "sk-31UVgsnLItXrBKQDCa0140EeE73e43B89811028090613197"
