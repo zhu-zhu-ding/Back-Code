@@ -1,0 +1,59 @@
+[
+    {
+        "instruction": [
+            "Provide a Fortran function code named sum_string that calculates the sum of the ASCII values of characters in a given string. The function takes an input argument str of type character with unspecified length. The function returns an output argument sig of type integer. \n\nTo generate the sum, the function first converts the string into a character array named tmp using the forall statement. Then, it uses the sum function and the ichar function to compute the ASCII values of each character and sum them up. Finally, the function assigns the resulting sum to the output argument sig.\n\nWrite a Fortran function named sum_string that takes a string as input and returns the sum of the ASCII values of its characters. The input argument is a character string with unspecified length, and the output argument is an integer representing the sum.",
+            "Provide a Fortran function named sum_string that calculates the sum of the ASCII values of all the characters in a given string. The function takes one input argument of type character array with variable length and has one output argument of type integer. The name of the function is sum_string.",
+            "Write a Fortran function named sum_string that calculates the sum of the ASCII values of the characters in a given string. The function takes a single input argument of type character, which represents the string to be processed. The function returns an output of type integer, which represents the sum of the ASCII values.\n\nTo use the function, provide the string as the input argument when calling the function. The function will then iterate over each character in the string, convert it into an integer, and calculate the sum of the ASCII values of all the characters. The result will be returned as the output of the function."
+        ],
+        "test_case": {
+            "unit_test": "program main\n  use test_function\n  implicit none\n  character(len=50) :: str\n  \n  !case1\n  str = \"Hello World!\"\n  print *, sum_string(str)\n  \n  !case2\n  str = \"1234567890\"\n  print *, sum_string(str)\n  \n  !case3\n  str = \"Testing 1 2 3\"\n  print *, sum_string(str)\n  \n  !case4\n  str = \"abcdefghijklmnopqrstuvwxyz\"\n  print *, sum_string(str)\n  \n  !case5\n  str = \"AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz\"\n  print *, sum_string(str)\n  \nend program main",
+            "result": [
+                "2301",
+                "1805",
+                "2164",
+                "3615",
+                "4650"
+            ]
+        },
+        "code": "  elemental function sum_string(str) result(sig)\n    character(len=*), intent(in)   :: str\n    integer                        :: sig\n    character, dimension(len(str)) :: tmp\n    integer :: i\n\n    forall (i=1:len(str))\n       tmp(i) = str(i:i)\n    end forall\n    sig = sum(ichar(tmp))\n  end function sum_string\n",
+        "test_result": "```fortran\nfunction sum_string(str) result(sig)\n    character(len=*), intent(in) :: str\n    integer :: sig\n    character(len=len(str)) :: tmp\n    integer :: i\n\n    forall(i = 1:len(str))\n        tmp(i) = str(i:i)\n    end forall\n\n    sig = sum(ichar(tmp))\nend function sum_string\n```"
+    },
+    {
+        "instruction": [
+            "Create a Fortran function named \"distance\" that calculates the distance between two points in a Cartesian coordinate system. The function takes four input parameters of type real: \"ax\" and \"ay\" representing the coordinates of point A, and \"bx\" and \"by\" representing the coordinates of point B. The function returns a single output parameter, also of type real, representing the calculated distance.",
+            "Write a Fortran function called \"distance\" that calculates the Euclidean distance between two points in a two-dimensional space. The function takes four input arguments of type real, representing the x and y coordinates of the two points. The function returns a single value of type real, representing the distance between the two points.",
+            "Please create a Fortran function named \"distance\" that calculates the Euclidean distance between two points in a 2-dimensional space. The function should have four input parameters, which are the x and y coordinates of the first point (ax, ay) and the second point (bx, by). The function should return a single output value of type real, representing the calculated distance."
+        ],
+        "test_case": {
+            "unit_test": "program main\n  use test_function\n  implicit none\n  real :: ax, ay, bx, by\n\n  ! case 1\n  ax = 0.0\n  ay = 0.0\n  bx = 3.0\n  by = 4.0\n  print *, distance(ax, ay, bx, by)\n\n  ! case 2\n  ax = -2.3\n  ay = 5.7\n  bx = 1.2\n  by = -6.9\n  print *, distance(ax, ay, bx, by)\n\n  ! case 3\n  ax = -10.0\n  ay = 10.0\n  bx = 10.0\n  by = -10.0\n  print *, distance(ax, ay, bx, by)\n\n  ! case 4\n  ax = 0.0\n  ay = 0.0\n  bx = 0.0\n  by = 0.0\n  print *, distance(ax, ay, bx, by)\n\n  ! case 5\n  ax = 1.234\n  ay = -5.678\n  bx = -9.876\n  by = 3.210\n  print *, distance(ax, ay, bx, by)\nend program main",
+            "result": [
+                "5.00000000",
+                "13.0770798",
+                "28.2842712",
+                "0.00000000",
+                "14.2277431"
+            ]
+        },
+        "code": "function distance(ax, ay, bx, by)\n    implicit none\n    real :: ax\n    real :: ay\n    real :: bx\n    real :: by\n    real :: distance\n    distance = ((bx - ax) ** 2 + (by - ay) ** 2) ** 0.5\n    return\nend function\n",
+        "test_result": "```fortran\nfunction distance(ax, ay, bx, by)\n    real :: ax, ay, bx, by\n    real :: distance\n    \n    distance = sqrt((bx - ax)**2 + (by - ay)**2)\n    \n    return distance\nend function distance\n```"
+    },
+    {
+        "instruction": [
+            "Give me a Fortran function code named unique that returns a new array containing only the unique values from the input array. The number of input arguments is 1 and the data type is an integer array. The number of output arguments is 1 and the data type is also an integer array.",
+            "Please provide a Fortran function called \"unique\" that takes in an integer array as input. The function's purpose is to return an array that contains only the unique values from the input array. The function should have one input parameter of type integer array and one output parameter of type integer array.",
+            "Give me a Fortran function code named unique that returns the unique values from an input vector.The number of input arguments is 1 and the test_data type is [integer array].The number of output arguments is 1 and the test_data type is [integer array]."
+        ],
+        "test_case": {
+            "unit_test": "program main\n  use test_function\n  implicit none\n  integer, allocatable :: vec(:), vec_unique(:)\n  \n  !case1\n  allocate(vec(5))\n  vec = [1, 2, 3, 4, 5]\n  vec_unique = unique(vec)\n  print *, vec_unique\n  deallocate(vec, vec_unique)\n\n  !case2\n  allocate(vec(10))\n  vec = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5]\n  vec_unique = unique(vec)\n  print *, vec_unique\n  deallocate(vec, vec_unique)\n\n  !case3\n  allocate(vec(6))\n  vec = [1, 1, 2, 3, 3, 4]\n  vec_unique = unique(vec)\n  print *, vec_unique\n  deallocate(vec, vec_unique)\n\n  !case4\n  allocate(vec(8))\n  vec = [5, 5, 5, 5, 5, 5, 5, 5]\n  vec_unique = unique(vec)\n  print *, vec_unique\n  deallocate(vec, vec_unique)\n\n  !case5\n  allocate(vec(7))\n  vec = [2, 1, 3, 2, 1, 3, 2]\n  vec_unique = unique(vec)\n  print *, vec_unique\n  deallocate(vec, vec_unique)\nend program main",
+            "result": [
+                "1           2           3           4           5",
+                "1           2           3           4           5",
+                "1           2           3           4",
+                "5",
+                "2           1           3"
+            ]
+        },
+        "code": "function unique(vec) result(vec_unique)\n! return only the unique values from vec.\n\nimplicit none\n\ninteger,dimension(:),intent(in) :: vec\ninteger,dimension(:),allocatable :: vec_unique\n\ninteger :: i,num\nlogical,dimension(size(vec)) :: mask\n\nmask = .false.\n\ndo i=1,size(vec)\n\n    !count the number of occurrences of this element:\n    num = count( vec(i)==vec )\n\n    if (num==1) then\n        !there is only one, flag it:\n        mask(i) = .true.\n    else\n        !flag this value only if it hasn't already been flagged:\n        if (.not. any(vec(i)==vec .and. mask) ) mask(i) = .true.\n    end if\n\nend do\n\n!return only flagged elements:\nallocate( vec_unique(count(mask)) )\nvec_unique = pack( vec, mask )\n\n!if you also need it sorted, then do so.\n! for example, with slatec routine:\n!call isort (vec_unique, [0], size(vec_unique), 1)\n\nend function unique\n",
+        "test_result": "Here is a Fortran function code named unique that accomplishes the task:\n\n```fortran\nfunction unique(arr) result(unique_arr)\n    integer, intent(in) :: arr(:)\n    integer :: i, j, count\n    logical :: is_unique\n    integer, allocatable :: unique_arr(:)\n\n    count = 0\n    do i = 1, size(arr)\n        is_unique = .true.\n        do j = 1, size(unique_arr)\n            if (arr(i) == unique_arr(j)) then\n                is_unique = .false.\n                exit\n            end if\n        end do\n\n        if (is_unique) then\n            count = count + 1\n            unique_arr = [unique_arr, arr(i)]\n        end if\n    end do\n\n    unique_arr = unique_arr(1:count)\nend function unique\n```\n\nYou can call the function like this:\n\n```fortran\ninteger :: input_array(5)\ninteger :: result_array(:)\n\ninput_array = [1, 2, 3, 1, 2]\nresult_array = unique(input_array)\n\nwrite(*,*) result_array\n```\n\nThis function iterates through the input array and checks if each element is already present in the unique_arr. If it is not, the element is added to the unique_arr. Finally, the function returns the unique_arr containing only the unique values from the input array."
+    }
+]
